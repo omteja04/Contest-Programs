@@ -7,6 +7,7 @@
 // https: // app.codesignal.com/arcade/intro/level-1/s5PbmwxfECC52PWyQ
 
 #include <bits/stdc++.h>
+using namespace std;
 bool solution(string inputString) {
     int i = 0;
     int j = inputString.length() - 1;
