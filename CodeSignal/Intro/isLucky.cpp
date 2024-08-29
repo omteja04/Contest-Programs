@@ -7,8 +7,7 @@
 // https : // app.codesignal.com/arcade/intro/level-3/3AdBC97QNuhF6RwsQ
 
 #include <math.h>
-        int
-        findSum(int n) {
+int findSum(int n) {
     int sum = 0;
     while (n) {
         sum += (n % 10);
