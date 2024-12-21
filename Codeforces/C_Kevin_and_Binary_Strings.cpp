@@ -5,6 +5,7 @@
  **/
 
 #include <cstddef>
+#include <string>
 #pragma G++ optimize("Ofast")
 #pragma G++ target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma G++ optimize("unroll-loops")
@@ -80,23 +81,48 @@ const double PI = std::acos(-1);
     std::cin >> t; \
     while(t--)
 
+string fun(string &s1, string &s2) {
+    string res = "";
+    int l = max(s1.length(), s2.length());
+    string s11 = string(l - s1.length(), '0') + s1;
+    string s12 = string(l - s2.length(), '0') + s2;
+    for(int i = 0; i < l; i++) {
+        res += (s11[i] == s12[i]) ? '0' : '1';
+    }
+    return res;
+}
 void levi() {
     string s;
     cin >> s;
     int n = s.size();
-    size_t ind = s.find('0');
-    debug(ind);
+    int ind = -1;
+
     cout << 1 << " " << s.length() << " ";
 
-    if(ind == string::npos) {
+    for(int i = 0; i < n; i++) {
+        if(s[i] == '0') {
+            ind = i;
+            break;
+        }
+    }
+
+    if(ind == -1) {
         cout << 1 << " " << 1;
         return;
     } else {
-        int chars = n - 1;
-        string maxiXor = s;
-        while(chars >= 1) {
-            s.substr()
-        } 
+        int a = -1, b = -1;
+        int SIZE = n - ind;
+        string maxiString = s;
+        for(int i = 0; i < n - SIZE; i++) {
+            string substring = s.substr(i, SIZE);
+            string curr = fun(s, substring);
+            if(curr > maxiString) {
+                maxiString = curr;
+                a = i + 1;
+                b = SIZE + i;
+            }
+        }
+        cout << a << " " << b;
     }
 }
 
