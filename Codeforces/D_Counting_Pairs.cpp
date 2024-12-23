@@ -107,7 +107,7 @@ void levi() {
     ll high = sum - x;
     ll cnt = 0;
 
-    for(ll i = 0; i < n; i++) {
+    for(ll i = 0; i < n - 1; i++) {
         ll lower = lower_bound(arr.begin() + i + 1, arr.end(), low - arr[i]) - arr.begin();
         ll upper = upper_bound(arr.begin() + i + 1, arr.end(), high - arr[i]) - arr.begin();
         cnt += (upper - lower);
