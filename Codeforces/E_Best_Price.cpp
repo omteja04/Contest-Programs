@@ -1,4 +1,14 @@
+/**
+ * Author: omteja04
+ * Created on: 23-12-2024 20:10:51
+ * Description: E_Best_Price
+ **/
+
+#include <algorithm>
 #include <bits/stdc++.h>
+#include <cassert>
+#include <iostream>
+#include <sys/stat.h>
 #include <vector>
 
 /*
@@ -22,15 +32,18 @@
 using ll = long long;
 using ld = long double;
 using ull = unsigned long long;
-using pi = std::pair<ll, ll>;
+using pl = std::pair<ll, ll>;
+using pi = std::pair<int, int>;
 using pd = std::pair<ld, ld>;
 using vb = std::vector<bool>;
-using vi = std::vector<ll>;
+using vi = std::vector<int>;
+using vl = std::vector<ll>;
 using vpi = std::vector<pi>;
-using vpd = std::vector<pd>;
+using vpl = std::vector<pl>;
 using vvb = std::vector<std::vector<bool>>;
-using vvi = std::vector<std::vector<ll>>;
-using vvpi = std::vector<std::vector<pi>>;
+using vvl = std::vector<std::vector<ll>>;
+using vvi = std::vector<std::vector<int>>;
+using vvpl = std::vector<std::vector<pl>>;
 
 /*
 =========================
@@ -47,10 +60,9 @@ template <class... Args>
 auto &write(Args &&...args) {
     return (std::cout << ... << std::forward<Args>(args));
 }
-
 template <class... Args>
 auto &debugging(Args &&...args) {
-    return (std::cerr << ... << std ::forward<Args>(args));
+    return (std::cerr << ... << std::forward<Args>(args));
 }
 
 /*
@@ -149,8 +161,68 @@ const double PI = std::acos(-1);
 =================================================
 */
 
+int totalOK(vl &arr, int price) {
+    int low = 0;
+    int high = arr.size() - 1;
+    int ans = arr.size();
+    while(low <= high) {
+        int mid = middle;
+        if(arr[mid] >= price) {
+            ans = mid;
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    // return ans + 1;
+    return arr.size() - ans;
+}
+int totalNotOK(vl &brr, int price) {
+    int low = 0;
+    int high = brr.size() - 1;
+    int ans = -1;
+    while(low <= high) {
+        int mid = middle;
+        if(brr[mid] < price) {
+            low = mid + 1;
+            ans = mid;
+        } else {
+            high = mid - 1;
+        }
+    }
+    // return brr.size() - ans;
+    return ans + 1;
+}
+
 void levi() {
-    // Code Here
+    IN(int, n, k);
+    vl arr(n), brr(n);
+    for(int i = 0; i < n; i++) {
+        std::cin >> arr[i];
+    }
+    for(int i = 0; i < n; i++) {
+        std::cin >> brr[i];
+    }
+    vl res;
+    fn(i, n) {
+        res.pb(arr[i]);
+        res.pb(brr[i]);
+    }
+    std::sort(all(arr));
+    std::sort(all(brr));
+    int ans = 0;
+    for(int i = 0; i < res.size(); i++) {
+        int poss = res[i];
+        int totalNo = totalNotOK(brr, poss);
+        int totalOk = totalOK(arr, poss);
+        int negative = n - totalNo - totalOk;
+        if(negative > k) {
+            continue;
+        }
+        int value = (totalOk * poss) + std::min(negative, k) * poss;
+        ans = std::max(ans, value);
+    }
+    std::cout << ans;
 }
 #undef int
 
