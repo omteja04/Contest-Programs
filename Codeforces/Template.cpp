@@ -1,9 +1,3 @@
-/**
- * Author: omteja04
- * Created on: 23-12-2024 22:41:31
- * Description: Template
- **/
-
 #include <bits/stdc++.h>
 #include <vector>
 
@@ -28,18 +22,15 @@
 using ll = long long;
 using ld = long double;
 using ull = unsigned long long;
-using pl = std::pair<ll, ll>;
-using pi = std::pair<int, int>;
+using pi = std::pair<ll, ll>;
 using pd = std::pair<ld, ld>;
 using vb = std::vector<bool>;
-using vi = std::vector<int>;
-using vl = std::vector<ll>;
+using vi = std::vector<ll>;
 using vpi = std::vector<pi>;
-using vpl = std::vector<pl>;
+using vpd = std::vector<pd>;
 using vvb = std::vector<std::vector<bool>>;
-using vvl = std::vector<std::vector<ll>>;
-using vvi = std::vector<std::vector<int>>;
-using vvpl = std::vector<std::vector<pl>>;
+using vvi = std::vector<std::vector<ll>>;
+using vvpi = std::vector<std::vector<pi>>;
 
 /*
 =========================
@@ -63,8 +54,8 @@ auto &write(Args &&...args) {
 =========================
 */
 
-#define IN(...)  \
-    __VA_ARGS__; \
+#define IN(type, ...) \
+    type __VA_ARGS__; \
     read(__VA_ARGS__)
 
 #define INPUT_ARRAY_1D(n, arr) \
