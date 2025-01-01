@@ -179,9 +179,9 @@ void levi() {
     long long res = 0;
     for(long long i = 0; i < n; i++) {
         cumulative += arr[i];
-        res += abs(cumulative);
+        res += std::abs(cumulative);
     }
-    std::cout << res<<"\n";
+    std::cout << res << "\n";
 }
 #undef int
 
