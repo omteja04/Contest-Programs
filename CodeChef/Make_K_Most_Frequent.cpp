@@ -1,0 +1,261 @@
+/**
+ * Author: omteja04
+ * Created on: 15-01-2025 20:18:46
+ * Description: Make_K_Most_Frequent
+ **/
+
+#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
+/*
+=========================
+        Headers
+=========================
+*/
+
+#pragma G++ optimize("Ofast")
+#pragma G++ target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma G++ optimize("unroll-loops")
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++17-extensions"
+
+/*
+░█▀▀░█▀█░█▀█░▀█▀░█▀█░▀█▀░█▀█░░░█░░░█▀▀░█░█░▀█▀
+░█░░░█▀█░█▀▀░░█░░█▀█░░█░░█░█░░░█░░░█▀▀░▀▄▀░░█░
+░▀▀▀░▀░▀░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░░▀░░▀▀▀
+*/
+
+/*
+=========================
+    Type Definitions
+=========================
+*/
+
+using ll = long long;
+using ld = long double;
+using ull = unsigned long long;
+using pi = std::pair<ll, ll>;
+using pd = std::pair<ld, ld>;
+using vb = std::vector<bool>;
+using vi = std::vector<ll>;
+using vd = std::vector<ld>;
+using vpi = std::vector<pi>;
+using vpd = std::vector<pd>;
+using vvb = std::vector<std::vector<bool>>;
+using vvi = std::vector<std::vector<ll>>;
+using vvd = std::vector<std::vector<ld>>;
+using vvpi = std::vector<std::vector<pi>>;
+
+/*
+=========================
+    Template Functions
+=========================
+*/
+
+template <class... Args>
+auto &read(Args &...args) {
+    return (std::cin >> ... >> args);
+}
+
+template <class... Args>
+auto &write(Args &&...args) {
+    return (std::cout << ... << std::forward<Args>(args));
+}
+
+template <class... Args>
+auto &debugging(Args &&...args) {
+    return (std::cerr << ... << std::forward<Args>(args));
+}
+
+/*
+=========================
+    Macros for Input
+=========================
+*/
+
+#define IN(type, ...) \
+    type __VA_ARGS__; \
+    read(__VA_ARGS__)
+
+#define INPUT_ARRAY_1D(n, arr) \
+    for(ll i = 0; i < n; i++)  \
+    std::cin >> arr[i]
+
+#define INPUT_ARRAY_2D(n, m, arr) \
+    for(ll i = 0; i < n; i++)     \
+        for(ll j = 0; j < m; j++) \
+    std::cin >> arr[i][j]
+
+/*
+=========================
+    Macros for Output
+=========================
+*/
+
+#define OUT(...) write(__VA_ARGS__)
+
+#define OUTPUT_ARRAY_1D(n, arr) \
+    for(ll i = 0; i < n; i++)   \
+    std::cout << arr[i] << ' '
+
+#define OUTPUT_ARRAY_2D(n, m, arr) \
+    for(ll i = 0; i < n; i++)      \
+        for(ll j = 0; j < m; j++)  \
+    std::cout << arr[i][j]
+
+/*
+=========================
+    Shortcuts
+=========================
+*/
+
+#define fn(i, n)         for(ll i = 0; i < (n); i++)
+#define fab(i, a, b)     for(ll i = (a); i < (b); i++)
+#define rfn(i, n)        for(ll i = (n); i >= 0; i--)
+#define rfab(i, b, a)    for(ll i = (b); i >= (a); i--)
+#define all(x)           (x).begin(), (x).end()
+#define rall(x)          (x).rbegin(), (x).rend()
+#define sz(x)            ((ll) (x).size())
+#define middle           low + (high - low) / 2
+#define pb               push_back
+#define eb               emplace_back
+#define mp               make_pair
+#define fi               first
+#define se               second
+#define fixed(n)         std::fixed << std::setprecision(n)
+#define digits(n)        ((int) std::log10(n) + 1)
+#define fill(arr, value) std::memset(arr, value, sizeof(arr));
+#define yes()            std::cout << "YES"
+#define no()             std::cout << "NO"
+#define int              long long
+#define abs              std::abs
+
+/*
+=========================
+    Constants and Debug
+=========================
+*/
+
+const int MOD = 1000000007;
+const double PI = std::acos(-1);
+
+#define Time     std::cerr << "Time Taken: " << (float) std::clock() / CLOCKS_PER_SEC << " Secs" << "\n";
+#define debug(x) std::cerr << "Line(" << __LINE__ << ") -> " << (#x) << " = " << (x) << '\n'
+#define ERR(...) debugging(__VA_ARGS__)
+#define fast_cin()                         \
+    std::ios_base::sync_with_stdio(false); \
+    std::cin.tie(NULL);                    \
+    std::cout.tie(NULL)
+
+/*
+=========================
+    Test Case Macros
+=========================
+*/
+
+#define tc         \
+    int t = 1;     \
+    std::cin >> t; \
+    while(t--)
+
+/*
+=================================================
+        Because I was born to be great
+=================================================
+*/
+
+bool _0(int n, int k, const vi &arr) {
+    vi freq(21, 0);
+    for(int i = 0; i < n; i++) {
+        freq[arr[i]]++;
+    }
+    for(int frequencyValue: freq) {
+        if(frequencyValue == freq[k]) {
+            continue;
+        }
+        if(frequencyValue > freq[k]) {
+            return false;
+        }
+    }
+    return true;
+}
+bool _1(int n, int k, const vi &arr) {
+    vi prefix(21, 0);
+    for(int i = 0; i < n - 1; i++) {
+        prefix[arr[i]]++;
+
+        if(prefix[k] == 0) {
+            continue;
+        }
+
+        bool conditionSatisfied = true;
+        for(int j = 0; j < 21; j++) {
+            if(j == k) {
+                continue;  // Skip `k` itself
+            }
+            if(prefix[k] < prefix[j]) {
+                conditionSatisfied = false;
+                break;
+            }
+        }
+
+        if(conditionSatisfied) {
+            return true;
+        }
+    }
+
+    vi suffix(21, 0);
+    for(int i = n - 1; i > 0; i--) {
+        suffix[arr[i]]++;
+
+        // Check condition without `std::all_of`
+        if(suffix[k] == 0) {
+            continue;
+        }
+
+        bool conditionSatisfied = true;
+        for(int j = 0; j < 21; j++) {
+            if(j == k) {
+                continue;  // Skip `k` itself
+            }
+            if(suffix[k] < suffix[j]) {
+                conditionSatisfied = false;
+                break;
+            }
+        }
+
+        if(conditionSatisfied) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void levi() {
+    IN(int, n, k);
+    vi arr(n);
+    int firstK = -1;
+    int lastK = -1;
+    for(int i = 0; i < n; i++) {
+        std::cin >> arr[i];
+    }
+    if(_0(n, k, arr)) {
+        OUT(0);
+    } else if(_1(n, k, arr)) {
+        OUT(1);
+    } else {
+        OUT(2);
+    }
+}
+#undef int
+
+int main() {
+    fast_cin();
+
+    tc {
+        levi();
+        std::cout << '\n';
+    }
+    return 0;
+}
