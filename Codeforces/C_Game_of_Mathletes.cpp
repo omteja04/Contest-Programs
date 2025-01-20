@@ -4,7 +4,6 @@
  * Description: C_Game_of_Mathletes
  **/
 
-#include <algorithm>
 #include <bits/stdc++.h>
 #include <iostream>
 #include <unordered_map>
