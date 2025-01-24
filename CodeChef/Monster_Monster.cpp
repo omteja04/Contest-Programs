@@ -1,13 +1,12 @@
 /**
  * Author: omteja04
- * Created on: 15-01-2025 21:19:07
- * Description: Constant_Subsequence
+ * Created on: 22-01-2025 20:12:51
+ * Description: Monster_Monster
  **/
 
 #include <algorithm>
 #include <bits/stdc++.h>
 #include <iostream>
-#include <numeric>
 #include <vector>
 
 /*
@@ -167,56 +166,15 @@ const double PI = std::acos(-1);
 =================================================
 */
 
-bool can(vi &pos, vi &neg, int mid) {
-    int i = 0;
-    int j = 0;
-    int currSum = 0;
-    int maxSum = 0;
-
-    while(i < pos.size() || j < neg.size()) {
-        if(i < pos.size() && currSum + pos[i] <= mid) {
-            currSum += pos[i];
-            maxSum = std::max(maxSum, currSum);
-            i++;
-        } else if(j < neg.size()) {
-            currSum += neg[j];
-            maxSum = std::max(maxSum, currSum);
-            j++;
-            currSum = std::max(0 * 1ll, currSum);
-        } else {
-            return false;
-        }
-    }
-    return maxSum <= mid;
-}
-void levi() { 
-    IN(int, n);
+void levi() {
+    IN(int, n, x);
     vi arr(n);
     INPUT_ARRAY_1D(n, arr);
-    vi positive, negative;
+    std::sort(rall(arr));
+    int ans = 0;
     for(int i = 0; i < n; i++) {
-        if(arr[i] >= 0) {
-            positive.pb(arr[i]);
-        } else {
-            negative.pb(arr[i]);
-        }
-    }
-    if(positive.empty()) {
-        std::cout << 0;
-        return;
-    }
-    int low = *std::max_element(positive.begin(), positive.end());
-    int high = std::accumulate(all(positive), 0 * 1ll);
-    int ans = high;
-
-    while(low <= high) {
-        int mid = middle;
-        if(can(positive, negative, mid)) {
-            ans = mid;
-            high = mid - 1;
-        } else {
-            low = mid + 1;
-        }
+        int curr = arr[i] + i * x;
+        ans = std::max(ans, curr);
     }
     std::cout << ans;
 }

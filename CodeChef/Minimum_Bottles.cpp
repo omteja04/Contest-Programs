@@ -1,11 +1,11 @@
 /**
  * Author: omteja04
- * Created on: 15-01-2025 21:19:07
- * Description: Constant_Subsequence
+ * Created on: 22-01-2025 20:08:07
+ * Description: Minimum_Bottles
  **/
 
-#include <algorithm>
 #include <bits/stdc++.h>
+#include <cmath>
 #include <iostream>
 #include <numeric>
 #include <vector>
@@ -67,7 +67,7 @@ auto &write(Args &&...args) {
 
 template <class... Args>
 auto &debugging(Args &&...args) {
-    return (std::cerr << ... << std::forward<Args>(args));
+return (std::cerr << ... << std::forward<Args>(args));
 }
 
 /*
@@ -77,7 +77,7 @@ auto &debugging(Args &&...args) {
 */
 
 #define IN(type, ...) \
-    type __VA_ARGS__; \
+    type __VA_ARGS__;  \
     read(__VA_ARGS__)
 
 #define INPUT_ARRAY_1D(n, arr) \
@@ -156,10 +156,10 @@ const double PI = std::acos(-1);
 =========================
 */
 
-#define tc         \
-    int t = 1;     \
+#define tc    \
+    int t = 1;    \
     std::cin >> t; \
-    while(t--)
+    while (t--)
 
 /*
 =================================================
@@ -167,58 +167,13 @@ const double PI = std::acos(-1);
 =================================================
 */
 
-bool can(vi &pos, vi &neg, int mid) {
-    int i = 0;
-    int j = 0;
-    int currSum = 0;
-    int maxSum = 0;
-
-    while(i < pos.size() || j < neg.size()) {
-        if(i < pos.size() && currSum + pos[i] <= mid) {
-            currSum += pos[i];
-            maxSum = std::max(maxSum, currSum);
-            i++;
-        } else if(j < neg.size()) {
-            currSum += neg[j];
-            maxSum = std::max(maxSum, currSum);
-            j++;
-            currSum = std::max(0 * 1ll, currSum);
-        } else {
-            return false;
-        }
-    }
-    return maxSum <= mid;
-}
-void levi() { 
-    IN(int, n);
+void levi() {
+    IN(int, n, x);
     vi arr(n);
     INPUT_ARRAY_1D(n, arr);
-    vi positive, negative;
-    for(int i = 0; i < n; i++) {
-        if(arr[i] >= 0) {
-            positive.pb(arr[i]);
-        } else {
-            negative.pb(arr[i]);
-        }
-    }
-    if(positive.empty()) {
-        std::cout << 0;
-        return;
-    }
-    int low = *std::max_element(positive.begin(), positive.end());
-    int high = std::accumulate(all(positive), 0 * 1ll);
-    int ans = high;
+    int sum = std::accumulate(arr.begin(), arr.end(), 0LL);
+    std::cout<<std::ceil((sum * 1.0) / x);
 
-    while(low <= high) {
-        int mid = middle;
-        if(can(positive, negative, mid)) {
-            ans = mid;
-            high = mid - 1;
-        } else {
-            low = mid + 1;
-        }
-    }
-    std::cout << ans;
 }
 #undef int
 
