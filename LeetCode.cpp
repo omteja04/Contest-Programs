@@ -1,11 +1,6 @@
-/**
- * Author: omteja04
- * Created on: 25-12-2024 19:11:19
- * Description: LeetCode
- **/
-
 #include <bits/stdc++.h>
 #include <vector>
+using namespace std;
 
 /*
 =========================
@@ -20,6 +15,12 @@
 #pragma clang diagnostic ignored "-Wc++17-extensions"
 
 /*
+░█▀▀░█▀█░█▀█░▀█▀░█▀█░▀█▀░█▀█░░░█░░░█▀▀░█░█░▀█▀
+░█░░░█▀█░█▀▀░░█░░█▀█░░█░░█░█░░░█░░░█▀▀░▀▄▀░░█░
+░▀▀▀░▀░▀░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░░▀░░▀▀▀
+*/
+
+/*
 =========================
     Type Definitions
 =========================
@@ -32,10 +33,12 @@ using pi = std::pair<ll, ll>;
 using pd = std::pair<ld, ld>;
 using vb = std::vector<bool>;
 using vi = std::vector<ll>;
+using vd = std::vector<ld>;
 using vpi = std::vector<pi>;
 using vpd = std::vector<pd>;
 using vvb = std::vector<std::vector<bool>>;
 using vvi = std::vector<std::vector<ll>>;
+using vvd = std::vector<std::vector<ld>>;
 using vvpi = std::vector<std::vector<pi>>;
 
 /*
@@ -120,6 +123,7 @@ auto &debugging(Args &&...args) {
 #define yes()            std::cout << "YES"
 #define no()             std::cout << "NO"
 #define int              long long
+#define abs              std::abs
 
 /*
 =========================
@@ -129,6 +133,90 @@ auto &debugging(Args &&...args) {
 
 const int MOD = 1000000007;
 const double PI = std::acos(-1);
+
+/*
+=========================
+    Maths
+=========================
+*/
+
+const long long N = 1e6 + 9;
+std::vector<ll> primes, spf(N, 0);
+std::vector<bool> isPrime(N, true);
+
+void SIEVE_SPF() {
+    isPrime[0] = isPrime[1] = false;
+    for(long long i = 2; i * i < N; i++) {
+        if(isPrime[i]) {
+            spf[i] = i;
+            for(long long j = i * i; j < N; j += i) {
+                isPrime[j] = false;
+                if(spf[j] == 0) {
+                    spf[j] = i;
+                }
+            }
+        }
+    }
+    for(long long i = 2; i < N; i++) {
+        if(isPrime[i]) {
+            primes.push_back(i);
+        }
+    }
+}
+
+ll power(ll x, ll y, ll MOD) {
+    ll res = 1;
+    while(y > 0) {
+        if(y & 1) {
+            res = (res * x) % MOD;
+        }
+        x = (x * x) % MOD;
+        y >>= 1;
+    }
+    return res;
+}
+
+ll gcd(ll a, ll b) {
+    while(b) {
+        a %= b;
+        std::swap(a, b);
+    }
+    return a;
+}
+
+ll lcm(ll a, ll b) {
+    return (a / gcd(a, b)) * b;
+}
+
+/*
+=========================
+    Combinatorics
+=========================
+*/
+
+// Fermat's Little Theorem: a^(p-1) ≡ 1 (mod p)
+// => a^(-1) ≡ a^(p-2) (mod p)
+// Derangements Using Pre-Computation: !n = (n-1) * (!(n-1) + !(n-2)), n == 0 (1), n == 1 (0)
+// Derangements Factorials: !n = n! * Σ((-1)^k / k!), for k = 0 to n
+// Stars & Bars: C(n + k - 1, k - 1)
+
+const int MAX = 2e6;
+vector<ll> fact(MAX, 1), inverseFact(MAX, 1);
+void initialize() {
+    for(int i = 2; i < MAX; i++) {
+        fact[i] = fact[i - 1] * i % MOD;
+    }
+    inverseFact[MAX - 1] = power(fact[MAX - 1], MOD - 2, MOD);
+    for(int i = MAX - 2; i > 0; i--) {
+        inverseFact[i] = inverseFact[i + 1] * (i + 1) % MOD;
+    }
+}
+
+// C(n, r) = n! / (r! * (n-r)!)
+
+ll C(ll n, ll r) {
+    return fact[n] * inverseFact[r] % MOD * inverseFact[n - r] % MOD;
+}
 
 #define Time     std::cerr << "Time Taken: " << (float) std::clock() / CLOCKS_PER_SEC << " Secs" << "\n";
 #define debug(x) std::cerr << "Line(" << __LINE__ << ") -> " << (#x) << " = " << (x) << '\n'
